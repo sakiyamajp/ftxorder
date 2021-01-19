@@ -3,11 +3,11 @@
 Please note that I do not take any responsibility or liability for any damage or loss caused through this module.
 
 # requirements
-node.js 
+install LTS node.js 
 
 https://nodejs.org/en/
 
-install LTS
+
 
 # install
 
