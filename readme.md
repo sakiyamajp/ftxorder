@@ -4,7 +4,9 @@ Please note that I do not take any responsibility or liability for any damage or
 
 # requirements
 node.js 
+
 https://nodejs.org/en/
+
 use LTS
 
 # install
@@ -15,7 +17,7 @@ npm install
 
 # config
 1. rename _config.js to config.js
-2. edit config.js file.
+2. edit config.js file and save it.
 ```
 export default {
 	subaccount : "enter ftx sub account name",
@@ -24,3 +26,4 @@ export default {
 	port : 8081
 }
 ```
+
