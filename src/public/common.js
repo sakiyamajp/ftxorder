@@ -59,10 +59,10 @@ $(async () => {
 	let ws = new Ftxws();
 	let chart = new Chart();
 	ws.ontrades = ds => {
-		chart.executions(ds)
+		chart.bar.update(ds)
 	}
 	ws.onorders = d => {
-		chart.order(d);
+		chart.order.update(d);
 		if(d.status != "closed" ||
 			d.type != "limit"){
 			return;
@@ -137,11 +137,11 @@ $(async () => {
 		LF(ds,type)
 	});
 	socket.on("ohlcs",ds => {
-		chart.ohlc(ds);
+		chart.bar.ohlc(ds);
 	});
 	socket.on("orders",ds => {
 		for(let d of ds){
-			chart.order(d);
+			chart.order.update(d);
 		}
 	});
 

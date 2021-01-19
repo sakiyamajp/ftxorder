@@ -1,3 +1,114 @@
+class Order{
+	constructor(chart){
+		this.chart = chart;
+		this.ds = {};
+	}
+	update(d){
+		if(d.market != M.id){
+			return;
+		}
+		switch(d.status){
+			case "new" :
+			case "open" :
+				this.ds[d.id] = d;
+				break;
+			case "closed" :
+				if(this.ds[d.id]){
+					delete this.ds[d.id];
+				}
+				break;
+		}
+		this.draw();
+	}
+	draw(){
+		let ds = Object.values(this.ds);
+		let g = this.chart.svg.selectAll(".order")
+			.data(ds, d => d.id);
+		g.exit()
+			.remove();
+		let g_enter = g.enter()
+			.append("g")
+			.attr("class","order");
+		g_enter.append("line")
+			.attr('class',d => d.side);
+		let merged = g_enter.merge(g);
+		merged.select("line")
+			.attr("x1", 0)
+			.attr("x2", d => this.chart.jqsvg.width() - this.chart.margin.right)
+			.attr("y1", d => this.chart.y.scale(d.price))
+			.attr("y2", d => this.chart.y.scale(d.price))
+	}
+}
+class Bar{
+	constructor(chart){
+		this.chart = chart;
+		this.ds = [];
+		this.drawCount = 155;
+		this.resolution = 60000;
+		this.cacheMax = 700;
+	}
+	update(ds){
+		for(let d of ds){
+			let time = d.time - d.time % this.resolution;
+			let last = this.ds[this.ds.length-1];
+			if(last &&
+				last.t == time){
+				last.h = Math.max(last.h,d.price);
+				last.l = Math.min(last.l,d.price);
+				last.c = d.price;
+				continue;
+			}
+			let o = last ? last.c : d.price;
+			this.ds.push({
+				t : time,
+				o,
+				h : Math.max(o,d.price),
+				l : Math.min(o,d.price),
+				c : d.price,
+			});
+		}
+		this.chart.draw();
+	}
+	async ohlc(ds){
+		this.ds = ds;
+		this.chart.draw();
+	}
+	async removeCache(){
+		while(true){
+			while(this.ds.length > this.cacheMax){
+				this.ds.shift();
+			}
+			await sleep(6000);
+		}
+	}
+	draw(ds){
+		let xscale = this.chart.x.scale;
+		let yscale = this.chart.y.scale;
+		let g = this.chart.svg.selectAll(".bar")
+			.data(ds, d => d.t);
+		g.exit()
+			.remove();
+		let g_enter = g.enter()
+			.append("g")
+			.attr("class","bar");
+		g_enter.append("line")
+			.attr('class','hige');
+		g_enter.append("line")
+			.attr('class','body');
+		let merged = g_enter.merge(g);
+		merged.attr("transform", d => {
+				return `translate(${xscale(d.t) + xscale.bandwidth() / 2},0)`
+			})
+			.attr("class", d => d.c >= d.o ? "bar yousen" : "bar");
+		merged.select(".hige")
+			.attr("y1", d => yscale(d.l))
+			.attr("y2", d => yscale(d.h))
+		merged.select(".body")
+			.attr("y1", d => yscale(d.o))
+			.attr("y2", d => yscale(d.c))
+			.attr("stroke-width", xscale.bandwidth());
+	}
+}
 class Chart{
 	constructor(){
 		let margin = {top: 5, right: 50, bottom: 35, left: 20};
@@ -10,9 +121,7 @@ class Chart{
 		this.y = new YAxis(this);
 
 		this.table = [];
-		this.barCount  = 155;
-		this.resolution = 60000;
-		this.cacheMax = 1400;
+		this.bar = new Bar(this);
 		this.spread = this.svg
 			.append("line")
 			.attr("class","spread")
@@ -23,7 +132,7 @@ class Chart{
 				this.wheel(event,d);
 				event.preventDefault();
 			});
-		this.orders = {};
+		this.order = new Order(this);
 		$( window ).resize(() => {
 			this.resize();
 		});
@@ -33,41 +142,16 @@ class Chart{
 			self.resize();
 		},500);
 	}
-	async removeCache(){
-		while(true){
-			while(this.table.length > this.cacheMax){
-				this.table.shift();
-			}
-			await sleep(6000);
-		}
-	}
-	order(d){
-		if(d.market != M.id){
-			return;
-		}
-		switch(d.status){
-			case "new" :
-			case "open" :
-				this.orders[d.id] = d;
-				break;
-			case "closed" :
-				if(this.orders[d.id]){
-					delete this.orders[d.id];
-				}
-				break;
-		}
-		this.drawOrders();
-	}
 	wheel(event,d){
 		let direction = event.wheelDelta < 0 ? 'down' : 'up';
 		let span = 15;
 		if(direction == "up"){
-			if(this.barCount > 10){
-				this.barCount -= span;
+			if(this.bar.drawCount > 10){
+				this.bar.drawCount -= span;
 			}
 		}else{
-			if(this.barCount < this.cacheMax){
-				this.barCount += span;
+			if(this.bar.drawCount < this.bar.cacheMax){
+				this.bar.drawCount += span;
 			}
 		}
 		this.draw();
@@ -92,95 +176,24 @@ class Chart{
 			.attr("y1", d => this.y.scale(ds.bid))
 			.attr("y2", d => this.y.scale(ds.ask))
 	}
-	async ohlc(ds){
-		this.table = ds;
-		this.draw();
-	}
 	timeMinMax(){
 		let now = +new Date();
-		let max = now - now % this.resolution;
-		max = Math.max(this.table[this.table.length-1].t,max);
-		let min = max - this.resolution * this.barCount;
+		let bar = this.bar;
+		let max = now - now % bar.resolution;
+		max = Math.max(bar.ds[bar.ds.length-1].t,max);
+		let min = max - bar.resolution * bar.drawCount;
 		return {min,max};
 	}
-	drawOrders(){
-		let ds = Object.values(this.orders);
-		let g = this.svg.selectAll(".order")
-			.data(ds, d => d.id);
-		g.exit()
-			.remove();
-		let g_enter = g.enter()
-			.append("g")
-			.attr("class","order");
-		g_enter.append("line")
-			.attr('class',d => d.side);
-		let merged = g_enter.merge(g);
-		merged.select("line")
-			.attr("x1", 0)
-			.attr("x2", d => this.jqsvg.width() - this.margin.right)
-			.attr("y1", d => this.y.scale(d.price))
-			.attr("y2", d => this.y.scale(d.price))
-	}
 	draw(){
-		if(!this.table.length){
+		if(this.bar.ds.length < 10){
 			return;
 		}
 		let {min,max} = this.timeMinMax();
-		let ds = this.table.slice(
-			this.table.length - this.barCount - 1,
-			this.table.length
-		);
-		this.x.update(min,max,this.resolution);
+		let index;
+		let ds = this.bar.ds.filter(d => d.t >= min);
+		this.x.update(min,max,this.bar.resolution);
 		this.y.update(ds)
-
-		let g = this.svg.selectAll(".bar")
-			.data(ds, d => d.t);
-		g.exit()
-			.remove();
-		let g_enter = g.enter()
-			.append("g")
-			.attr("class","bar");
-		g_enter.append("line")
-			.attr('class','hige');
-		g_enter.append("line")
-			.attr('class','body');
-		let merged = g_enter.merge(g);
-		merged.attr("transform", d => {
-				return `translate(${this.x.scale(d.t) + this.x.scale.bandwidth() / 2},0)`
-			})
-			.attr("class", d => d.c >= d.o ? "bar yousen" : "bar");
-		merged.select(".hige")
-			.attr("y1", d => this.y.scale(d.l))
-			.attr("y2", d => this.y.scale(d.h))
-		merged.select(".body")
-			.attr("y1", d => this.y.scale(d.o))
-			.attr("y2", d => this.y.scale(d.c))
-			.attr("stroke-width", this.x.scale.bandwidth());
-		this.drawOrders();
-	}
-	executions(ds){
-		for(let d of ds){
-			let time = d.time - d.time % this.resolution;
-			let last = this.table[this.table.length-1];
-			if(last &&
-				last.t == time){
-				last.h = Math.max(last.h,d.price);
-				last.l = Math.min(last.l,d.price);
-				last.c = d.price;
-				continue;
-			}
-			let o = last ? last.c : d.price;
-			this.table.push({
-				t : time,
-				o,
-				h : Math.max(o,d.price),
-				l : Math.min(o,d.price),
-				c : d.price,
-			});
-		}
-		if(this.table.length < 10){
-			return;
-		}
-		this.draw();
+		this.bar.draw(ds);
+		this.order.draw();
 	}
 }

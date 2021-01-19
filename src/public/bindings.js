@@ -68,7 +68,7 @@ class Bindings{
 		});
 		let chart = this.chart;
 		$("#cancel").on('click',function(){
-			socket.emit("cancel",Object.keys(chart.orders));
+			socket.emit("cancel",Object.keys(chart.order.ds));
 		});
 	}
 	toggleBuySell(){

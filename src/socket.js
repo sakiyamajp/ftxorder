@@ -59,7 +59,7 @@ export default class socket{
 	async ohlcs(socket,symbol){
 		let ohlcs = await this.api.ohlc(symbol,{
 			resolution : 60,
-			limit : 1400,
+			limit : 700,
 		});
 		ohlcs = ohlcs.map(d => {
 			return {
