@@ -7,7 +7,7 @@ node.js
 
 https://nodejs.org/en/
 
-use LTS
+install LTS
 
 # install
 
@@ -26,4 +26,9 @@ export default {
 	port : 8081
 }
 ```
-
+# start
+```
+npm start
+```
+# access
+open localhost:8081 via chrome.
