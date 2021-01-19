@@ -1,0 +1,41 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# eclipse generated files #
+###########################
+.project
+.buildpath
+.settings/
+.pydevproject
+.ipynb_checkpoints
+
+# User specific & automatically generated files #
+#################################################
+/node_modules
+/logs
+/build
+/dist
+/chache
+
+# sass generated files #
+###########################
+.sass-cache
+.package-lock.json
+
+# cache files #
+###########################
+*.pyc
+*.ckpt.*
+checkpoint
+package-lock.json
+config.js
+/cookie
+log.txt
+chache

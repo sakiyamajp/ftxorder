@@ -1,0 +1,12 @@
+doctype html
+html
+	head
+		title= title
+		// http:つけとくとsaveしても動く テキストとして画面を保存で動く
+		script(type="text/javascript",src="http://code.jquery.com/jquery-3.3.1.slim.min.js",integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=",crossorigin="anonymous")
+		script(type="text/javascript",src="http://cdn.plot.ly/plotly-latest.min.js")
+		script(type="text/javascript",src="http://d3js.org/d3.v5.min.js")
+		script(type="text/javascript",src="/js/mbacktest.js")
+	body
+		h1 error
+		.error= message

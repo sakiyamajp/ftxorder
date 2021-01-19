@@ -1,0 +1,133 @@
+body{
+  background-color:black;
+  margin-top:10px;
+  color:white;
+  font-size:.9rem;
+}
+.fixedwidth{
+  width: 150px;
+  display: inline-block;
+}
+.zoom{
+  position: absolute;
+  bottom: 40px;
+  left: 15px;
+}
+.sizesliderlabel{
+  color:white;
+  margin-bottom: 0;
+  font-size: 10px;
+}
+.range{
+  line-height:1;
+  input{
+    padding-top: 15px;
+    height: 1rem;
+  }
+  .thumb{
+    display:none;
+  }
+}
+#symbol,#size{
+  max-width: 140px;
+}
+.chart{
+  position: relative;
+  .log{
+    position: absolute;
+    left: 15px;
+    top: 80px;
+    p{
+      margin-bottom: -.3rem;
+      &.error{
+        color:#f93154;
+      }
+    }
+  }
+  .position{
+    position: absolute;
+    right: 100px;
+    top: 15px;
+  }
+  .accountinfo{
+    position: absolute;
+    left: 15px;
+    top: 15px;
+  }
+}
+.controls{
+  width: 100%;
+  margin-bottom: 22px;
+  position:relative;
+  .buysell{
+    display: inline-block;
+    position: absolute;
+    right: 70px;
+    span {
+      cursor:pointer;
+      margin-left:5px;
+      &.disabled{
+        opacity:0.1
+      }
+    }
+  }
+}
+button.order{
+  margin:5px 5px;
+  width: 85px;
+  font-size: 10px;
+  padding: .375rem 0 .3125rem;
+}
+svg{
+  cursor: crosshair;
+  width:100%;
+  path{
+    fill:none;
+    stroke-width : 1;
+    &.muted{
+      opacity:.2;
+    }
+  }
+  line.spread{
+    opacity: .2;
+    stroke : white;
+  }
+  .order{
+    line{
+      stroke-width : 1;
+      &.buy{
+        stroke : #00b74a;
+      }
+      &.sell{
+        stroke : #f93154;
+      }
+    }
+  }
+  .cursor{
+    display:none;
+    line{
+      stroke-width : 1;
+      stroke-dasharray : 5,5;
+    }
+    text{
+      fill:currentColor;
+    }
+  }
+  g,line{
+    // svg全体のマウスイベントだけにする。
+    pointer-events:none;
+  }
+  g.tick line{
+    opacity:.07;
+  }
+  .bar{
+    line{
+      stroke : #f93154;
+    }
+    &.yousen{
+      line{
+        stroke : #00b74a;
+      }
+    }
+  }
+}

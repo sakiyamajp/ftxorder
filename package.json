@@ -1,0 +1,32 @@
+{
+  "name": "ftx order",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node --max-old-space-size=65536 --trace-warnings src/index.js"
+  },
+  "engines": {
+    "node": "^14.15.0"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "sakiyama",
+  "dependencies": {
+    "ccxt": "^1.38.85",
+    "d3": "^5.9.2",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.27",
+    "node-fetch": "^2.6.0",
+    "pug": "^3.0.0",
+    "socket.io": "^2.3.0",
+    "sockjs-client": "^1.5.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.13",
+    "gulp": "^4.0.2",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-sass": "^4.1.0"
+  }
+}
