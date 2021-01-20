@@ -4,6 +4,8 @@
 
 ![sample](https://github.com/sakiyamajp/ftxorder/blob/master/sample.png?raw=true)
 
+1クリックでオーダー出したいのツール。
+
 # requirements
 install LTS node.js 
 
@@ -36,9 +38,13 @@ export default {
 }
 ```
 # start
+各コマンドはwindowsならコマンドプロンプトからmac linuxならターミナルからこのプロジェクトフォルダに移動し行ってください。
 ```
 npm start
 ```
+参考 : 
+https://qiita.com/KOJI-YAMAMOTO/items/4d189b2e44b5ffe5827a
+
 # access
 "localhost:8081"をchromeで開いてください。
 portはconfigで変更できます。
