@@ -36,7 +36,8 @@ npm start
 "localhost:8081"をchromeで開いてください。
 portはconfigで変更できます。
 
-#たぶん使いにくいところ
+# たぶん使いにくいところ
 sub account移動ができない。
+
 trigger orderがない。
 
