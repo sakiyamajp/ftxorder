@@ -2,6 +2,8 @@
 
 使用は自己責任でお願いします。
 
+![sample](https://github.com/sakiyamajp/ftxorder/blob/master/sample.png?raw=true)
+
 # requirements
 install LTS node.js 
 
@@ -33,4 +35,9 @@ npm start
 # access
 "localhost:8081"をchromeで開いてください。
 portはconfigで変更できます。
+
+# たぶん使いにくいところ
+sub account移動ができない。
+
+trigger orderがない。
 
