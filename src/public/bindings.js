@@ -74,7 +74,11 @@ class Bindings{
 			socket.emit("cancel",[id]);
 		});
 		$("#cancel").on('click',function(){
-			socket.emit("cancel",Object.keys(chart.order.ds));
+			let ids = Object.keys(chart.order.ds);
+			if(ids.length){
+				return;
+			}
+			socket.emit("cancel",ids);
 		});
 	}
 	toggleBuySell(){

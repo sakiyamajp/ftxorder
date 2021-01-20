@@ -126,6 +126,7 @@ $(async () => {
 			"container_id": "tradingview"
 		});
 		ws.connect();
+		chart.order.ds = {};
 		socket.emit("ohlcs",M.id,{
 			limit : chart.bar.cacheMax,
 			resolution : chart.bar.resolution / 1000,
