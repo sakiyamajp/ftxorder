@@ -46,7 +46,7 @@ body{
   }
   .position{
     position: absolute;
-    right: 100px;
+    right: 150px;
     top: 15px;
   }
   .accountinfo{
@@ -79,7 +79,6 @@ button.order{
   padding: .375rem 0 .3125rem;
 }
 svg{
-  cursor: crosshair;
   width:100%;
   path{
     fill:none;
@@ -93,24 +92,41 @@ svg{
     stroke : white;
   }
   .order{
+    &.buy{
+      stroke : #00b74a;
+    }
+    &.sell{
+      stroke : #f93154;
+    }
     line{
       stroke-width : 1;
-      &.buy{
-        stroke : #00b74a;
-      }
-      &.sell{
-        stroke : #f93154;
-      }
     }
+    text{
+      cursor:pointer;
+      pointer-events:visiblePainted;
+      font-size:10px;
+    }
+  }
+  .ohlcarea{
+    cursor: crosshair;
   }
   .cursor{
     display:none;
+    &.buy{
+      stroke : #00b74a;
+      fill : #00b74a;
+    }
+    &.sell{
+      stroke : #f93154;
+      fill : #f93154;
+    }
     line{
       stroke-width : 1;
       stroke-dasharray : 5,5;
     }
     text{
-      fill:currentColor;
+      font-size: 12px;
+      stroke:white !important;
     }
   }
   g,line{

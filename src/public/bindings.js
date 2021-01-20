@@ -70,6 +70,12 @@ class Bindings{
 		$("#cancel").on('click',function(){
 			socket.emit("cancel",Object.keys(chart.order.ds));
 		});
+		$("svg").on('cancel',function(event,id){
+			socket.emit("cancel",[id]);
+		});
+		$("#cancel").on('click',function(){
+			socket.emit("cancel",Object.keys(chart.order.ds));
+		});
 	}
 	toggleBuySell(){
 		$(".buysell span").toggleClass("disabled");

@@ -115,7 +115,7 @@ $(async () => {
 			"width": $("#tradingview").width(),
 			"height": 550,
 			"symbol": `FTX:${M.id.replace("-","")}`,
-			"interval": "1",
+			"interval": "5",
 			"timezone": "Etc/UTC",
 			"theme": "dark",
 			"style": "1",
@@ -126,7 +126,10 @@ $(async () => {
 			"container_id": "tradingview"
 		});
 		ws.connect();
-		socket.emit("ohlcs",M.id);
+		socket.emit("ohlcs",M.id,{
+			limit : chart.bar.cacheMax,
+			resolution : chart.bar.resolution / 1000,
+		});
 		socket.emit("orders",M.id);
 		socket.emit("account",true);
 		range.reset();

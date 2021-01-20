@@ -41,7 +41,7 @@ body {
         color: #f93154; }
   .chart .position {
     position: absolute;
-    right: 100px;
+    right: 150px;
     top: 15px; }
   .chart .accountinfo {
     position: absolute;
@@ -69,7 +69,6 @@ button.order {
   padding: .375rem 0 .3125rem; }
 
 svg {
-  cursor: crosshair;
   width: 100%; }
   svg path {
     fill: none;
@@ -79,19 +78,32 @@ svg {
   svg line.spread {
     opacity: .2;
     stroke: white; }
+  svg .order.buy {
+    stroke: #00b74a; }
+  svg .order.sell {
+    stroke: #f93154; }
   svg .order line {
     stroke-width: 1; }
-    svg .order line.buy {
-      stroke: #00b74a; }
-    svg .order line.sell {
-      stroke: #f93154; }
+  svg .order text {
+    cursor: pointer;
+    pointer-events: visiblePainted;
+    font-size: 10px; }
+  svg .ohlcarea {
+    cursor: crosshair; }
   svg .cursor {
     display: none; }
+    svg .cursor.buy {
+      stroke: #00b74a;
+      fill: #00b74a; }
+    svg .cursor.sell {
+      stroke: #f93154;
+      fill: #f93154; }
     svg .cursor line {
       stroke-width: 1;
       stroke-dasharray: 5,5; }
     svg .cursor text {
-      fill: currentColor; }
+      font-size: 12px;
+      stroke: white !important; }
   svg g, svg line {
     pointer-events: none; }
   svg g.tick line {

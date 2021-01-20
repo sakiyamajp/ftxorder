@@ -9,14 +9,16 @@ class Cursor{
 		this.g = svg
 			.append("g")
 			.attr("class","cursor");
+		this.rect = this.g
+			.append("rect")
+			.attr("width", 50)
+			.attr("height", 18)
 		this.line = this.g
 			.append("line")
 			.attr("x1", 0)
-			// .attr("x2", jqsvg.width() - margin.right);
 		this.text = this.g
 			.append("text")
-			.attr("transform", `translate(0,-2)`);
-		svg.on("mousemove", (event,d) => {
+		chart.ohlcarea.on("mousemove", (event,d) => {
 				this.update(event);
 			})
 			.on("mouseover", (event,d) => {
@@ -39,16 +41,23 @@ class Cursor{
 			this.updateBuySell();
 		});
 	}
-	resize(){
+	resize(width){
 		this.line
-			.attr("x2", this.jqsvg.width() - this.margin.right);
+			.attr("x2", width);
+		this.text
+			.attr("transform", `translate(${width+5},4)`);
+		this.rect
+			.attr("transform", `translate(${width+1},-9)`);
 	}
 	updateBuySell(){
-		this.line.attr('stroke',d => {
+		this.g.attr('class', d => {
+			let cls = ["cursor"];
 			if($('.buysell').data('buy')){
-				return "#00b74a";
+				cls.push("buy");
+			}else{
+				cls.push("sell");
 			}
-			return "#f93154";
+			return cls.join(' ');
 		});
 	}
 	getPrice(y){

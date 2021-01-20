@@ -4,8 +4,8 @@ export default class socket{
 		this.io = config.io;
 		this.api = config.api;
 		this.io.on('connection', socket => {
-			socket.on('ohlcs',async symbol => {
-				this.ohlcs(socket,symbol);
+			socket.on('ohlcs',async (symbol,options) => {
+				this.ohlcs(socket,symbol,options);
 			});
 			socket.on('account',async ds => {
 				this.account(socket);
@@ -15,7 +15,6 @@ export default class socket{
 				delete ds.buy;
 				try{
 					let d = await this.api._orderOneOptions(ds);
-					// socket.emit('orders',[d]);
 				}catch(e){
 					socket.emit('message',e.error,"error");
 				}
@@ -56,11 +55,8 @@ export default class socket{
 		}catch(e){
 		}
 	}
-	async ohlcs(socket,symbol){
-		let ohlcs = await this.api.ohlc(symbol,{
-			resolution : 60,
-			limit : 700,
-		});
+	async ohlcs(socket,symbol,options){
+		let ohlcs = await this.api.ohlc(symbol,options);
 		ohlcs = ohlcs.map(d => {
 			return {
 				t : d.time,
