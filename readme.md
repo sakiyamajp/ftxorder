@@ -9,13 +9,20 @@ install LTS node.js
 
 https://nodejs.org/en/
 
-
+nodejs ^14.15.0 で確認しています。
 
 # install
 
 ```
 npm install
 ```
+
+windowsでエラーが出る場合は
+
+```
+npm install -g windows-build-tools
+```
+参考 : https://arm-network.com/blockchain/windows-build-tools/
 
 # config
 1. _config.jsをconfig.jsに名前変更
