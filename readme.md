@@ -41,5 +41,7 @@ sub account移動ができない。
 
 trigger orderがない。
 
+PERPしかない
+
 実験ということで　おなしゃす！
 
