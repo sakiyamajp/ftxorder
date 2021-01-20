@@ -1,6 +1,6 @@
 # ftx order
 
-Please note that I do not take any responsibility or liability for any damage or loss caused through this module.
+使用は自己責任でお願いします。
 
 # requirements
 install LTS node.js 
@@ -16,8 +16,8 @@ npm install
 ```
 
 # config
-1. rename _config.js to config.js
-2. edit config.js file and save it.
+1. _config.jsをconfig.jsに名前変更
+2. config.jsの内容を自身のものに変更してください。
 ```
 export default {
 	subaccount : "enter ftx sub account name",
@@ -31,4 +31,6 @@ export default {
 npm start
 ```
 # access
-open localhost:8081 via chrome.
+"localhost:8081"をchromeで開いてください。
+portはconfigで変更できます。
+
