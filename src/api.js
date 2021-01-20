@@ -15,6 +15,36 @@ export default class Api{
       .update(query)
       .digest('hex');
   }
+  async position(market){
+    let ds = await this.execute("GET",`/positions`,{
+      showAvgPrice : true,
+    });
+    ds =  ds.result;
+    if(!market){
+      return ds;
+    }
+    ds = ds.filter(d => d.future == market);
+    return ds;
+    /*
+    {
+      collateralUsed: 0.02657,
+      cost: 0.5314,
+      entryPrice: 531.4,
+      estimatedLiquidationPrice: 0,
+      future: 'ETH-PERP',
+      initialMarginRequirement: 0.05,
+      longOrderSize: 0,
+      maintenanceMarginRequirement: 0.03,
+      netSize: 0.001,
+      openSize: 0.001,
+      realizedPnl: -0.00001,
+      shortOrderSize: 0,
+      side: 'buy',
+      size: 0.001,
+      unrealizedPnl: 0
+    }
+    */
+  }
   async account(){
     return this.execute("GET",`/account`);
   }
@@ -24,6 +54,10 @@ export default class Api{
     }else{
       return this.execute("DELETE",`/orders`);
     }
+  }
+  async future(market){
+    let ds = await this.execute("GET",`/futures/${market}`);
+    return ds.result;
   }
   async ohlc(market,options){
     let ds = await this.execute("GET",`/markets/${market}/candles`,options);

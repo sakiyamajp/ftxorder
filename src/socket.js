@@ -38,6 +38,7 @@ export default class socket{
 	async polling(){
 		while(true){
 			this.account();
+			this.position();
 			await sleep(1000);
 		}
 	}
@@ -48,7 +49,14 @@ export default class socket{
 			socket.emit('message',e.error,"error");
 		}
 	}
-	async account(socket){
+	async position(){
+		try{
+			let ds = await this.api.position();
+			this.io.local.emit("position",ds);
+		}catch(e){
+		}
+	}
+	async account(){
 		try{
 			let account = await this.api.account();
 			this.io.local.emit("account",account.result);

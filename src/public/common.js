@@ -2,31 +2,7 @@ let L = console.log;
 let sleep = (ms) => {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
-let M;
-let A;
-/*
-backstopProvider: false
-chargeInterestOnNegativeUsd: false
-collateral: 1271.7509106777131
-freeCollateral: 1270.4092662060018
-initialMarginRequirement: 0.05
-leverage: 20
-liquidating: false
-maintenanceMarginRequirement: 0.03
-makerFee: 0.0002
-marginFraction: null
-openMarginFraction: null
-positionLimit: null
-positionLimitUsed: null
-positions: (3) [{…}, {…}, {…}]
-spotLendingEnabled: false
-spotMarginEnabled: false
-takerFee: 0.000665
-totalAccountValue: 1271.7509106777131
-totalPositionSize: 0
-useFttCollateral: true
-username: "example@example.net/develop"
-*/
+let M,A,P;
 const socket = io('ws://localhost:'+CONFIG.port);
 // log front
 let LF = (ds,type) => {
@@ -101,8 +77,9 @@ $(async () => {
 		element.text(now);
 	}
 	ws.ontick = ds => {
+		let marketPrice = (ds.bid + ds.ask + ds.last) / 3;
+		ds.marketPrice = marketPrice;
 		chart.tick(ds);
-		// let marketPrice = (ds.bid + ds.ask + ds.last) / 3;
 		M.tick = ds;
 	}
 	let range = new Range();
@@ -148,21 +125,18 @@ $(async () => {
 			chart.order.update(d);
 		}
 	});
-
-	socket.on("account",ds => {
-		A = ds;
-		let p = A.positions.filter(p => p.future == M.id)[0];
-		let size = 0;
-		let pnl = 0;
-		if(p){
-			size = p.size;
-			if(p.side != "buy"){
-				size = -size;
-			}
-			pnl = p.unrealizedPnl
+	socket.on("position",ds => {
+		let p = ds.filter(p => p.future == M.id)[0];
+		let size = p.size;
+		let pnl = p.recentPnl;
+		if(p.side != "buy"){
+			size = -size;
 		}
 		$("span.lot").text(size);
 		$("span.pnl").text(pnl);
+	});
+	socket.on("account",ds => {
+		A = ds;
 		let collateral = parseInt(A.freeCollateral * 100 ) / 100;
 		$(".freeCollateral").text(collateral);
 		$(".leverage").text(A.leverage);
