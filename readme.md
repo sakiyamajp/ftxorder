@@ -56,5 +56,7 @@ trigger orderがない。
 
 PERPしかない
 
+とりあえず安全のためsub account only
+
 実験ということで　おなしゃす！
 
