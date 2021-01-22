@@ -58,6 +58,10 @@ PERPしかない
 
 とりあえず安全のためsub account only
 
+起動が技術者寄り　
+native app > electronのnodejs versionが低くてとりあえず却下
+browser onlyはcorsにより却下
+
 実験ということで　おなしゃす！
 
 # 禁止事項
