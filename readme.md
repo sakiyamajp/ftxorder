@@ -62,7 +62,7 @@ PERPしかない
 
 native app > electronのnodejs versionが低くてとりあえず却下
 
-browser onlyはcorsにより却下
+browser onlyはcorsにより却下 (FTXはcors不可）
 
 実験ということで　おなしゃす！
 
