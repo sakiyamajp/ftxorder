@@ -65,6 +65,7 @@ class Chart{
 		let max = now - now % bar.resolution;
 		max = Math.max(bar.ds[bar.ds.length-1].t,max);
 		let min = max - bar.resolution * bar.drawCount;
+		max += bar.resolution * 3;
 
 		let ds = this.bar.ds.filter(d => d.t >= min);
 		this.x.update(min,max,this.bar.resolution);
