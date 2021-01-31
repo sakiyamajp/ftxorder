@@ -3,7 +3,7 @@ class Ftxws{
   }
 	createEmit(){
 		let ds = [
-      // 'orderbook',
+      'orderbook',
       'trades',
       'ticker'
     ].map(d => {
@@ -96,7 +96,7 @@ class Ftxws{
         this.ontick(ds);
 				return;
 			case "orderbook" :
-				return;
+        return this.onorderbook(ds);
 			case "trades" :
         ds = ds.map(d => {
         	let size = (d.side == "buy") ? d.size : -d.size;

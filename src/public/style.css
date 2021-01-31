@@ -34,15 +34,11 @@ body {
   .chart .log {
     position: absolute;
     left: 15px;
-    top: 80px; }
+    top: 120px; }
     .chart .log p {
       margin-bottom: -.3rem; }
       .chart .log p.error {
         color: #f93154; }
-  .chart .position {
-    position: absolute;
-    right: 150px;
-    top: 15px; }
   .chart .accountinfo {
     position: absolute;
     left: 15px;
@@ -104,6 +100,16 @@ svg {
     svg .cursor text {
       font-size: 12px;
       stroke: white !important; }
+  svg .orderbook.axis path.domain {
+    opacity: 0; }
+  svg line.orderbook {
+    stroke-width: 1; }
+    svg line.orderbook.bids {
+      stroke: #0094FF; }
+    svg line.orderbook.asks {
+      stroke: #FF6A00; }
+    svg line.orderbook.depth {
+      stroke: #ffb21a; }
   svg g, svg line {
     pointer-events: none; }
   svg g.tick line {

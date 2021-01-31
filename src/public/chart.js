@@ -12,6 +12,7 @@ class Chart{
 			.attr("class","ohlcarea")
 
 		this.bar = new Bar(this);
+		this.orderbook = new OrderBook(this);
 		this.spread = this.svg
 			.append("line")
 			.attr("class","spread")
@@ -42,6 +43,9 @@ class Chart{
 			height,
 			this.margin.top
 		]);
+
+		this.orderbook.resize(width);
+
 		this.x.scale = this.x.scale.range([this.margin.left, width]);
 		this.x.resize();
 		this.y.resize();
@@ -65,11 +69,13 @@ class Chart{
 		let max = now - now % bar.resolution;
 		max = Math.max(bar.ds[bar.ds.length-1].t,max);
 		let min = max - bar.resolution * bar.drawCount;
+		max += bar.resolution * Math.round(bar.drawCount * .2);
 
 		let ds = this.bar.ds.filter(d => d.t >= min);
 		this.x.update(min,max,this.bar.resolution);
 		this.y.update(ds)
 		this.bar.draw(ds);
 		this.order.draw();
+		// this.orderbook.draw();
 	}
 }

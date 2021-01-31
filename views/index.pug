@@ -21,12 +21,16 @@ html
 						.input-group.input-group-sm
 							.form-outline.form-white
 								input.form-control#size(type='number' placeholder="size")
-								label.form-label.base_currency(for="size") ETH
-					.fixedwidth
+								label.form-label.base_currency(for="size") placehold
+					.fixedwidth(style="margin-right:20px;")
 						.range
 							p.sizesliderlabel
 							input#sizeslider.form-range(type='range' min="0" step="0.02")
-
+					.fixedwidth
+						.input-group.input-group-sm
+							.form-outline.form-white
+								input.form-control#depth(type='number' placeholder="depth" value="1")
+								label.form-label(for="size") DEPTH
 				.col-12
 					button#cancel.order.btn.btn-sm.btn-warning(type='button' style="margin-right:20px")
 						| cancel all
@@ -54,22 +58,37 @@ html
 						| limit
 						br
 						| close [w]
-					button#ols.order.btn.btn-sm.btn-danger(type='button' data-type="limit" data-buy="false")
+					button#ols.order.btn.btn-sm.btn-danger(type='button' data-type="limit" data-buy="false" style="margin-right:20px")
 						| limit
 						br
 						| best ask [e]
+
+					button#dlb.order.btn.btn-sm.btn-success(type='button' data-type="limit" data-buy="true")
+						| limit depth
+						br
+						| best bid [a]
+					button#dlc.order.btn.btn-sm.btn-warning(type='button' data-type="limit")
+						| limit depth
+						br
+						| close [s]
+					button#dls.order.btn.btn-sm.btn-danger(type='button' data-type="limit" data-buy="false")
+						| limit depth
+						br
+						| ask [d]
 			.row
 				.col-xxl-6
 					.chart
 						.zoom
+							| display range [mouse wheel]
+							br
 							| zoom +[v] -[b]
-						p.position
+						p.accountinfo
 							| position&nbsp;
 							span.lot
 							br
 							| pnl&nbsp;
 							span.pnl
-						p.accountinfo
+							br
 							| free collateral&nbsp;
 							span.freeCollateral
 							br
@@ -104,6 +123,7 @@ html
 		script(type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js')
 		script(type="text/javascript",src="/inputs.js")
 		script(type="text/javascript",src="/bindings.js")
+		script(type="text/javascript",src="/orderbook.js")
 		script(type="text/javascript",src="/ws.js")
 		script(type="text/javascript",src="/range.js")
 		script(type="text/javascript",src="/cursor.js")

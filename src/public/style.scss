@@ -36,18 +36,13 @@ body{
   .log{
     position: absolute;
     left: 15px;
-    top: 80px;
+    top: 120px;
     p{
       margin-bottom: -.3rem;
       &.error{
         color:#f93154;
       }
     }
-  }
-  .position{
-    position: absolute;
-    right: 150px;
-    top: 15px;
   }
   .accountinfo{
     position: absolute;
@@ -127,6 +122,21 @@ svg{
     text{
       font-size: 12px;
       stroke:white !important;
+    }
+  }
+  .orderbook.axis path.domain{
+    opacity:0;
+  }
+  line.orderbook{
+    stroke-width : 1;
+    &.bids{
+      stroke : #0094FF;
+    }
+    &.asks{
+      stroke : #FF6A00;
+    }
+    &.depth{
+      stroke : #ffb21a;
     }
   }
   g,line{
