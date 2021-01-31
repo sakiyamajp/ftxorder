@@ -29,6 +29,26 @@ class Bindings{
 		let socket = this.socket;
 		let inputs = this.inputs;
 		let self = this;
+		$("#dlb,#dlc,#dls").on('click',function(){
+			let ds = {
+				type : $(this).data('type'),
+				buy : $(this).data('buy')
+			}
+			ds = self.appendInputs(ds);
+			if(typeof ds.buy === "undefined"){
+				let now = +$("span.lot").text();
+				if(now == 0){
+					return;
+				}
+				ds.buy = now < 0;
+			}
+			if(ds.buy){
+				ds.price = self.chart.orderbook.depth.bids;
+			}else{
+				ds.price = self.chart.orderbook.depth.asks;
+			}
+			socket.emit("order",ds);
+		});
 		$("#omb,#oms,#olb,#ols").on('click',function(){
 			let ds = {
 				type : $(this).data('type'),
@@ -119,6 +139,16 @@ class Bindings{
 			},
 			e : () => {
 				$("#ols").click();
+			},
+
+			a : () => {
+				$("#dlb").click();
+			},
+			s : () => {
+				$("#dlc").click();
+			},
+			d : () => {
+				$("#dls").click();
 			},
 
 			tab : () => {

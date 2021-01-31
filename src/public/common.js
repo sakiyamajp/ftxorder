@@ -34,6 +34,10 @@ $(async () => {
 	let inputs = new Inputs();
 	let ws = new Ftxws();
 	let chart = new Chart();
+	let orderbook = {};
+	ws.onorderbook = ds => {
+		chart.orderbook.update(ds);
+	}
 	ws.ontrades = ds => {
 		chart.bar.update(ds)
 	}
@@ -127,10 +131,14 @@ $(async () => {
 	});
 	socket.on("position",ds => {
 		let p = ds.filter(p => p.future == M.id)[0];
-		let size = p.size;
-		let pnl = p.recentPnl;
-		if(p.side != "buy"){
-			size = -size;
+		let size = 0;
+		let pnl = "";
+		if(p){
+			size = p.size;
+			pnl = p.recentPnl;
+			if(p.side != "buy"){
+				size = -size;
+			}
 		}
 		$("span.lot").text(size);
 		$("span.pnl").text(pnl);
@@ -148,4 +156,4 @@ $(async () => {
 	document.querySelectorAll('.form-outline').forEach((formOutline) => {
 	  new mdb.Input(formOutline).init();
 	});
-});
+})

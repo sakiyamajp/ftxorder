@@ -1,8 +1,7 @@
 class YAxis{
 	constructor(chart){
 		this.chart = chart;
-		this.scale = d3.scaleLinear()
-			.range([this.chart.jqsvg.height() - this.chart.margin.bottom, this.chart.margin.top]);
+		this.scale = d3.scaleLinear();
 		let $axis = $('.axis');
 		this.axis = chart.svg.append("g")
 			.attr('class', 'axis')
