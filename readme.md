@@ -77,3 +77,4 @@ secretが流れるのでおすすめしません。
 # ftx アフィリエイト
 https://ftx.com/#a=2029431
 
+inspired by bfrtex
