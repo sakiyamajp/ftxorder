@@ -61,7 +61,7 @@ class Chart{
 			.attr("y2", d => this.y.scale(ds.ask))
 	}
 	draw(){
-		if(this.bar.ds.length < 10){
+		if(this.bar.ds.length < 1){
 			return;
 		}
 		let now = +new Date();
