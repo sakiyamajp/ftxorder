@@ -39,6 +39,7 @@ export default class socket{
 		while(true){
 			this.account();
 			this.position();
+			this.balance();
 			await sleep(1000);
 		}
 	}
@@ -47,6 +48,13 @@ export default class socket{
 			await this.api.cancel(id);
 		}catch(e){
 			socket.emit('message',e.error,"error");
+		}
+	}
+	async balance(){
+		try{
+			let ds = await this.api.ccxt.fetchBalance();
+			this.io.local.emit("balance",ds.info.result);
+		}catch(e){
 		}
 	}
 	async position(){

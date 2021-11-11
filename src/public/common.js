@@ -2,8 +2,8 @@ let L = console.log;
 let sleep = (ms) => {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
-let M,A,P;
 const socket = io('ws://localhost:'+CONFIG.port);
+let M,A,P,B;
 // log front
 let LF = (ds,type) => {
 	let p = $(`<p>${ds}</p>`);

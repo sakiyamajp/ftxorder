@@ -67,6 +67,12 @@ body{
     }
   }
 }
+.balance table{
+  width:100%;
+  .usd,.total,.free,.without{
+    width:22%;
+  }
+}
 button.order{
   margin:5px 5px;
   width: 85px;

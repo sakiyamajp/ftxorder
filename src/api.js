@@ -2,12 +2,20 @@ import https from "https";
 import fetch from 'node-fetch'
 import querystring from 'querystring'
 import crypto from 'crypto';
+import Ccxt from 'ccxt';
 export default class Api{
   constructor(config = {}){
     this.config = config;
     this.httpsAgent = new https.Agent({
       keepAlive: true,
       keepAliveMsecs : 999999999
+    });
+    this.ccxt = new Ccxt.ftx({
+      apiKey : this.config.key,
+      secret : this.config.secret,
+      headers : {
+        'FTX-SUBACCOUNT' : this.config.subaccount
+      }
     });
   }
   crypto(query){
