@@ -16,7 +16,7 @@ nodejs ^14.15.0 で確認しています。
 # install
 
 ```
-npm install
+npm install --production
 ```
 
 windowsでエラーが出る場合は
